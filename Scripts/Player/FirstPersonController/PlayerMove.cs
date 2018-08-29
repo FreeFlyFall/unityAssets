@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// Attach this script to player object
+// Attach this script to empty object with a character controller component
 // Set Horizontal Input Name to "Horizontal"
 // Set Vertical Input Name to "Vertical"
 // Set Movement Speed to "6"
