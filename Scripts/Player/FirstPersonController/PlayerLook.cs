@@ -5,7 +5,7 @@ using UnityEngine;
 // Attach this script to a camera which is the child of the player object
 // Set Position Y to "0.9"
 // Set Field of View to "90" or desired amount
-// Set Clipping Planes Near value to 0.1
+// Set Clipping Plane's Near value to 0.1
 // Set Mouse X Input Name to "Mouse X"
 // Set Mouse Y Input Name to "Mouse Y"
 // Set Mouse Sensitivity  to "100"
