@@ -10,6 +10,7 @@ using UnityEngine;
 // Create downward sine (ease out) for Jump Fall Off
 // Set Jump Multiplier to "10"
 // Set Jump Key to "Space"
+// Set the players character controller radius <= 0.35;
 
 
 public class PlayerMove : MonoBehaviour
