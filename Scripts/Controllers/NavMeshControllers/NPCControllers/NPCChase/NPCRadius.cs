@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// For making a navmesh agent follow a target when it's within
+// a certain range, stop at a certain distance from the target,
+// and face the target if it rotates around the agent after it has stopped
 public class NPCRadius : MonoBehaviour {
-
     public float lookRadius = 10f;
     Transform target;
     NavMeshAgent agent;

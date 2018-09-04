@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// For health of an object
 public class Target : MonoBehaviour {
 
     public float health = 100f;

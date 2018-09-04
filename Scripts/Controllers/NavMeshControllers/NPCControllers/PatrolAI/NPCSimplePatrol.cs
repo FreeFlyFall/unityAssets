@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// For use with the waypoint script to make an agent follow them
+// Drage the waypoints into the waypoint list in the engine
 public class NPCSimplePatrol : MonoBehaviour
 {
     //Dictates whether the agent waits on each node.

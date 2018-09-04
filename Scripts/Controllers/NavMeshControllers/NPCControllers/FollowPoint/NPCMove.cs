@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// Set the destination of a NavMesh Agent
+// Error only set for single updates, which are in the comments
 public class NPCMove : MonoBehaviour {
-
 
     [SerializeField] Transform destination;
 

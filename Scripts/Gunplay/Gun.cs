@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour {
-
+//General gun behaviour script
+public class Gun : MonoBehaviour
+{
     public float damage = 10f;
     public float range = 100f;
     public Camera fpsCam;
@@ -13,7 +14,8 @@ public class Gun : MonoBehaviour {
     public float fireRate = 8f;
     public float nextTimeToFire = 0f;
 
-	void Update () {
+	void Update ()
+    {
         // For automatic shots. remove second conditional, use GetButtonDown,
         // and keep only the shoot method in the conditional body for semi-auto
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
@@ -29,12 +31,11 @@ public class Gun : MonoBehaviour {
         muzzleFlash.Play();
 
         // Create a Raycast from the camera, forwards, named hit, with the range var
-        
         RaycastHit hit;
         if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
             // If it hits, tell what was hit, pass damage to
-            // the takeDamage method from target.cs 
+            // the takeDamage method from target.cs
             Debug.Log(hit.transform.name);
             Target target = hit.transform.GetComponent<Target>();
             if (target != null)
@@ -49,8 +50,8 @@ public class Gun : MonoBehaviour {
             }
             // Add the impact effect where the raycast impacts, and destroy
             // the effect after 2 seconds.
-            GameObject impactGo = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(impactGo, 2f);
+            GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impactGO, 2f);
         }
     }
 }
