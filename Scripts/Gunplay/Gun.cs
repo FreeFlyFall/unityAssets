@@ -94,7 +94,7 @@ public class Gun : MonoBehaviour {
             {
                 clipAmmo = clipAmmoLimit;
             }
-            // However, if the total ammo is below zero after accounting for the deficit,
+            // However, if the total ammo is below zero after accounting for the clip space,
             // there's not enough ammo to fill the clip
             else if(totalAmmo < 0)
             {
