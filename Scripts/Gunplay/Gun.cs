@@ -26,7 +26,6 @@ public class Gun : MonoBehaviour {
     public int clipAmmo;
     private bool reloadPause;
     private readonly int clipAmmoLimit = 60;
-    private readonly int totalAmmoLimit = 600;
 
     void Start()
     {
@@ -55,7 +54,6 @@ public class Gun : MonoBehaviour {
             emptyFire.Play();
         }
         //Reload
-        if (Input.GetKeyDown(KeyCode.R) && totalAmmo > 0)
         {
             StartCoroutine(Reload());
         }
