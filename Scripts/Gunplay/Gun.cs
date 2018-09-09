@@ -13,10 +13,10 @@ public class Gun : MonoBehaviour {
     
     public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
-    public float impactForce = 100f;
+    private float impactForce = 100f;
 
     public float fireRate = 10f;
-    public float nextTimeToFire = 0f;
+    private float nextTimeToFire = 0f;
 
     public AudioSource gunSound;
     public AudioSource emptyFire;
@@ -26,7 +26,7 @@ public class Gun : MonoBehaviour {
     public int clipAmmo;
     private bool reloadPause;
     private readonly int clipAmmoLimit = 60;
-    private readonly int totalAmmoLimit = 300;
+    private readonly int totalAmmoLimit = 120;
 
     void Start()
     {
@@ -35,35 +35,39 @@ public class Gun : MonoBehaviour {
     }
 
 	void Update () {
-        // For automatic shots. remove second conditional, use GetButtonDown,
-        // and keep only the shoot method in the conditional body for semi-auto
-        if(Input.GetButton("Fire1") &&
-            Time.time >= nextTimeToFire &&
-            clipAmmo > 0 &&
-            reloadPause != true)
+        // isPaused bool from GamePause.cs
+        if(GamePause.isPaused == false)
         {
-            //Since dividing, greater fire rate means less shot delay
-            nextTimeToFire = (Time.time + 1f / fireRate);
-            Shoot();
+            // For automatic shots. remove second conditional, use GetButtonDown,
+            // and keep only the shoot method in the conditional body for semi-auto
+            if(Input.GetButton("Fire1") &&
+                Time.time >= nextTimeToFire &&
+                clipAmmo > 0 &&
+                reloadPause != true)
+            {
+                //Since dividing, greater fire rate means less shot delay
+                nextTimeToFire = (Time.time + 1f / fireRate);
+                Shoot();
+            }
+            // Empty Fire
+            else if(Input.GetButton("Fire1") &&
+                Time.time >= nextTimeToFire &&
+                reloadPause != true)
+            {
+                nextTimeToFire = (Time.time + 1f / fireRate);
+                emptyFire.Play();
+            }
+            //Reload
+            if (Input.GetKeyDown(KeyCode.R) &&
+                totalAmmo > 0 &&
+                clipAmmo < 60 &&
+                reloadPause != true)
+            {
+                StartCoroutine(Reload());
+            }
+            // Refresh ammo display
+            AmmoDisplay.text = clipAmmo + " / " + totalAmmo;
         }
-        // Empty Fire
-        else if(Input.GetButton("Fire1") &&
-            Time.time >= nextTimeToFire &&
-            reloadPause != true)
-        {
-            nextTimeToFire = (Time.time + 1f / fireRate);
-            emptyFire.Play();
-        }
-        //Reload
-        if (Input.GetKeyDown(KeyCode.R) &&
-            totalAmmo > 0 &&
-            clipAmmo < 60 &&
-            reloadPause != true)
-        {
-            StartCoroutine(Reload());
-        }
-        // Refresh ammo display
-        AmmoDisplay.text = clipAmmo + " / " + totalAmmo;
     }
 
     IEnumerator Reload()
@@ -76,9 +80,6 @@ public class Gun : MonoBehaviour {
         reloadPause = false;
 
         ///Reload Logic
-        // If you have any ammo
-        if(totalAmmo > 0)
-        {
             /* Take the value of the ammo that has been used from the clip
                And subtract it from the total ammo
                if the total ammo is below zero, it now represents the
@@ -90,11 +91,11 @@ public class Gun : MonoBehaviour {
             totalAmmo -= clipAmmoLimit - clipAmmo;
             // If the total ammo is above zero after accounting
             // for the clip space, there's no deficit, so fill it to the limit
-            if(totalAmmo > 0)
+            if(totalAmmo >= 0)
             {
                 clipAmmo = clipAmmoLimit;
             }
-            // However, if the total ammo is below zero after accounting for the clip space,
+            // However, if the total ammo is below zero after accounting for the deficit,
             // there's not enough ammo to fill the clip
             else if(totalAmmo < 0)
             {
@@ -107,7 +108,6 @@ public class Gun : MonoBehaviour {
                 // Reset the totalAmmo to zero so the display doesn't show the negative value
                 totalAmmo = 0;
             }
-        }
     }
 
     void Shoot()

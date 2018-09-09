@@ -2,22 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// For health of an object
-public class Target : MonoBehaviour {
+public class TargetHealth : MonoBehaviour {
 
-    public float health = 100f;
+    public float health = 10f;
 
     public void TakeDamage(float amount)
     {
         health -= amount;
         if (health <= 0f)
         {
-            Die();
+            NPCRadius.passed = true;
         }
-    }
-
-    void Die()
-    {
-        Destroy(gameObject);
+        health = 10;
     }
 }
