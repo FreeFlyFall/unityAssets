@@ -25,14 +25,14 @@ public class Flashlight : MonoBehaviour {
         energy = maxEnergy;
         numBatteries = 3;
 	}
-	
+
 	void Update ()
     {
         // Set up Battery UI
         batteryDisplay.text = "Batteries (Q): " + numBatteries;
         // Turn on & off with sound
         ToggleLight();
-        
+
         // Handle battery level effects
         /// should be replaced with animations for smooth transitions or other effects
         if (isEnabled)
@@ -59,14 +59,26 @@ public class Flashlight : MonoBehaviour {
             isEnabled = !isEnabled;
             if (isEnabled)
             {
-                ClickOn.Play();
-                StartCoroutine(WaitTimeForClick());
+                FindObjectOfType<AudioManager>().Play("OnOne");
             }
             else
             {
-                ClickOff.Play();
-                StartCoroutine(WaitTimeForClick());
+                FindObjectOfType<AudioManager>().Play("OffOne");
             }
+        }
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            if (isEnabled)
+            {
+                FindObjectOfType<AudioManager>().Play("OnTwo");
+                lightAsObject.SetActive(true);
+            }
+            else
+            {
+                FindObjectOfType<AudioManager>().Play("OffTwo");
+                lightAsObject.SetActive(false);
+            }
+
         }
     }
 
@@ -84,7 +96,7 @@ public class Flashlight : MonoBehaviour {
         {
             light.intensity = 1.5f;
             light.range = 150f;
-        } 
+        }
         else if (energy >= 25f)
         {
             light.intensity = 1f;
@@ -106,17 +118,3 @@ public class Flashlight : MonoBehaviour {
             energy = 100f;
         }
     }
-
-    IEnumerator WaitTimeForClick()
-    {
-        yield return new WaitForSeconds(0.35f);
-        if (isEnabled)
-        {
-            lightAsObject.SetActive(true);
-        }
-        else
-        {
-            lightAsObject.SetActive(false);
-        }
-    }
-}
