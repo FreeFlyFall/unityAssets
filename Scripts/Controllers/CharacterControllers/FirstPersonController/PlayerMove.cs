@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// Attach this script to empty object with a character controller component
+// Attach this script to player object
 // Set Horizontal Input Name to "Horizontal"
 // Set Vertical Input Name to "Vertical"
 // Set Movement Speed to "6"
 // Create downward sine (ease out) for Jump Fall Off
 // Set Jump Multiplier to "10"
 // Set Jump Key to "Space"
-// Set the players character controller radius <= 0.35;
 
 
 public class PlayerMove : MonoBehaviour
@@ -22,6 +21,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private AnimationCurve jumpFallOff;
     [SerializeField] private float jumpMultiplier;
     [SerializeField] private KeyCode jumpKey;
+    [SerializeField] private float slopeForce;
+    [SerializeField] private float slopeForceRayLength;
+
     private CharacterController charController;
     private bool isJumping;
 
@@ -30,12 +32,13 @@ public class PlayerMove : MonoBehaviour
         charController = GetComponent<CharacterController>();
     }
 
+    // Update is called once per frame
     void Update()
     {
         PlayerMovement();
     }
 
-    private void PlayerMovement()
+    private void PlayerMovement() 
     {
         float horizInput = Input.GetAxis(horizontalInputName);
         float vertInput = Input.GetAxis(verticalInputName);
@@ -43,9 +46,37 @@ public class PlayerMove : MonoBehaviour
         Vector3 forwardMovement = transform.forward * vertInput;
         Vector3 rightMovement = transform.right * horizInput;
 
+        movementSpeed = 6;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            movementSpeed *= 2.25f;
+        }
+
         charController.SimpleMove(Vector3.ClampMagnitude(forwardMovement + rightMovement, 1.0f) * movementSpeed);
 
+        if((vertInput != 0 || horizInput != 0) && OnSlope())
+        {
+            charController.Move(Vector3.down * charController.height / 2 * slopeForce * Time.deltaTime);
+        }
+
         JumpInput();
+    }
+
+    private bool OnSlope()
+    {
+        if (isJumping)
+        {
+            return false;
+        }
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, charController.height / 2 * slopeForceRayLength))
+        {
+            if(hit.normal != Vector3.up)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void JumpInput()

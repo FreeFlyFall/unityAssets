@@ -62,18 +62,15 @@ public class NPCRadius : MonoBehaviour {
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    public bool isTeleported;
+    public bool isTeleported = true;
     // float that will act like a bool with a countdown
     public float isWaiting = 180;
 
     void FollowingEnemy()
     {
         // If the timer is up
-        if (isWaiting <= 0)
+        if (isWaiting < 0)
         {
-            // Show the enemy
-            agentCollider.enabled = true;
-            agentRend.enabled = true;
             // If the enemy is too far away, or too close, or killed, and has not not teleported
             if ((distance >= distanceLimit || distance <= 3 || passed == true) && isTeleported == false)
             {
@@ -87,7 +84,7 @@ public class NPCRadius : MonoBehaviour {
                 isWaiting = 180;
             }
             // If the enemy has teleported and is within the range to follow the player
-            if (isTeleported == true && distance >= agent.stoppingDistance)
+            else if (isTeleported == true && distance >= agent.stoppingDistance && distance > 3)
             {
                 // Show the enemy and make it chase the player again in case path finding failed
                 agentRend.enabled = true;
@@ -98,7 +95,7 @@ public class NPCRadius : MonoBehaviour {
                 // Reset the timer bool so the enemy can be teleported again
                 /// Fixes bug where enemy would sometimes tp and show immediately with invincibility
                 isWaiting = 0;
-             }
+            }
         }
         // Constantly reduce countdown
         isWaiting -= Time.deltaTime;

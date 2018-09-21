@@ -1,11 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// Set the destination of a NavMesh Agent
-// Error only set for single updates, which are in the comments
 public class NPCMove : MonoBehaviour {
+
 
     [SerializeField] Transform destination;
 
@@ -20,19 +19,18 @@ public class NPCMove : MonoBehaviour {
         }
         else
         {
-            //Method for moving to a point that is set once
             //SetDestination();
         }
     }
-
-    // private void SetDestination()
-    // {
-    //     if(destination != null)
-    //     {
-    //        Vector3 targetVector = destination.transform.position;
-    //        navMeshAgent.SetDestination(targetVector);
-    //     }
-    // }
+	
+    private void SetDestination()
+    {
+        //if(destination != null)
+        //{
+        //    Vector3 targetVector = destination.transform.position;
+        //    navMeshAgent.SetDestination(targetVector);
+        //}
+    }
 
 	void Update () {
         if (destination != null)

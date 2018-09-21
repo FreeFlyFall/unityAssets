@@ -6,7 +6,8 @@ using UnityEngine.UI;
 /* In Progress
     For setup of flashlight with sound,
     intensity variation, and battery count/level */
-public class Flashlight : MonoBehaviour {
+public class Flashlight : MonoBehaviour
+{
 
     public GameObject lightAsObject;
     public float energy;
@@ -20,16 +21,16 @@ public class Flashlight : MonoBehaviour {
     public Text batteryDisplay;
 
 
-    void Start ()
+    void Start()
     {
         energy = maxEnergy;
         numBatteries = 3;
-	}
+    }
 
-	void Update ()
+    void Update()
     {
         // Set up Battery UI
-        batteryDisplay.text = "Batteries (Q): " + numBatteries;
+        batteryDisplay.text = "Batteries: " + numBatteries;
         // Turn on & off with sound
         ToggleLight();
 
@@ -86,7 +87,7 @@ public class Flashlight : MonoBehaviour {
     {
         if (energy > 0)
         {
-            energy -= Time.deltaTime / 3f;
+            energy -= Time.deltaTime / 5f;
         }
     }
 
@@ -94,13 +95,13 @@ public class Flashlight : MonoBehaviour {
     {
         if (energy >= 50f)
         {
-            light.intensity = 1.5f;
-            light.range = 150f;
+            light.intensity = 1.2f;
+            light.range = 125f;
         }
         else if (energy >= 25f)
         {
-            light.intensity = 1f;
-            light.range = 105f;
+            light.intensity = 0.8f;
+            light.range = 95f;
         }
         else if (energy >= 0f)
         {
@@ -118,3 +119,4 @@ public class Flashlight : MonoBehaviour {
             energy = 100f;
         }
     }
+}

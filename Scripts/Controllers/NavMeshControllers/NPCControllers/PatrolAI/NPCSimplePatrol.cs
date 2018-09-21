@@ -1,10 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// For use with the waypoint script to make an agent follow them
-// Drage the waypoints into the waypoint list in the engine
 public class NPCSimplePatrol : MonoBehaviour
 {
     //Dictates whether the agent waits on each node.
@@ -16,8 +14,8 @@ public class NPCSimplePatrol : MonoBehaviour
     float totalWaitTime = 3f;
 
     //The probability of switching direction.
-    [SerializeField]
-    float switchProbability = 0.0f;
+    //[SerializeField]
+    //float switchProbability = 0.0f;
 
     //The list of all patrol nodes to visit.
     [SerializeField]
