@@ -13,6 +13,7 @@ public class Warp : MonoBehaviour {
         //actionText.SetActive(true);
         if (Input.GetKeyDown(KeyCode.E))
         {
+            // Pass the warpNumber and nextLevelBuildIndex to the scene manager script
             ManageScene.instance.LoadScene(warpNumber, nextLevelBuildIndex);
         }
     }

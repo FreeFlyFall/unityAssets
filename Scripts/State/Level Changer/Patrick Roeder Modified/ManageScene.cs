@@ -11,7 +11,6 @@ public class ManageScene : MonoBehaviour {
     public GameObject player;
     public GameObject[] warpTriggerArray;
 
-	// Use this for initialization
 	void Awake () {
 		if(instance == null)
         {
@@ -40,14 +39,14 @@ public class ManageScene : MonoBehaviour {
 
         for(int i = 0; i < warpTriggerArray.Length; i++)
         {
+            // If the number in the warp script is the same as the one set to currentWarpNumber in LoadScene()
             if (warpTriggerArray[i].GetComponent<Warp>().warpNumber == currentWarpNumber)
             {
+                // Teleport the player to it's position
                 player.transform.position = warpTriggerArray[i].transform.position;
             }
         }
     }
-
-
 
     public void LoadScene(int passedWarpNumber, int passedNextLevelBuildIndex)
     {
